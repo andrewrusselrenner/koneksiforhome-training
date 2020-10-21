@@ -1,0 +1,9 @@
+RewriteEngine on
+# RewriteCond %{HTTP_HOST} ^(www.)?main\-domain.com$ [NC]
+# RewriteCond %{REQUEST_URI} !^/sub\-folder/
+RewriteCond $1 !^(public\index\.php|assets|aset|images|js|css|uploads|favicon.png|node_modules)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./public/index.php/$1
+# RewriteCond %{HTTP_HOST} ^(www.)?main\-domain.com$ [NC]
+RewriteRule ^(/)?$ public/index.php [L]
