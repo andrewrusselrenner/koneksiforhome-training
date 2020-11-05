@@ -1,25 +1,57 @@
-# INSTRUKSI
+# CodeIgniter 4 Framework
 
-1. INSTALL COMPOSER
-2. KETIK `composer install`. PASTIKAN CMD DI FOLDER ROOT PROJEK.
-3. RENAME FILE `env` JADI `.env`
-4. BUAT DATABASE NAMANYA SEMBARANG AJA IKUTIN ATURAN (CONTOH: `db_training`)
-5. KALAU UDAH BUAT DATABASENYA, BUKA FILE `.env` TADI LALU HAPUS `#` DI
-    - [INI GAK PERLU KALAU SUDAH TERUBAH, LANJOT SKIP] CI_ENVIRONMENT = development <= JANGAN LUPA GANTI DARI `production` JADI `development`
-    - `app.baseURL` <= GANTI ALAMAT LOCALHOST/NAMA_FOLDER ATAU `http://localhost:8080`
-    - [INI JUGA LANGSUNG SKIP KALAU UDAH TERUBAH] SEMUA `database.default`
-6. KALO UDAH, ISI `database.default.database` DENGAN NAMA DATABASE YANG UDAH DIBUAT
-7. JANGAN LUPA SAVE
-8. KALO UDAH, KETIK PHP SPARK MIGRATE DI CONSOLE NYA (CMDER ATAU CMD), PASTIKAN DI ROOT PROJECT YA!
-9. TERUS SEMBARANG MAU BUKA LEWAT `http://localhost/namafolder` ATAU BISA KETIK COMMAND
-   `php spark serve`. NOTE: NAMAFOLDER ITU NAMA FOLDER PROJECTNYA, MISAL KONEKSIFORHOME-TRAINING.
+## What is CodeIgniter?
 
-> [!IMPORTANT]
-> 
-> JANGAN LUPA HAPUS SETIAP KOMENTAR (BIASANYA DIMULAI DENGAN `//`) DI CONTROLLER ATAUPUN DIMANAPUN TERMASUK DI VIEWS JUGA (BIASANYA BERUPA `<!-- KOMENTAR INI HARUS DIHAPUS-->`)!!!
+CodeIgniter is a PHP full-stack web framework that is light, fast, flexible, and secure. 
+More information can be found at the [official site](http://codeigniter.com).
 
-#### INGAAATTT!!!
-> JANGAN LUPA JUGA HAPUS FILE README.MD INI!!, SAMA FILE2 YG ADA DI APP\DATABASE\MIGRATIONS BIAR GAK KETAHUAN!!!
+This repository holds the distributable version of the framework,
+including the user guide. It has been built from the 
+[development repository](https://github.com/codeigniter4/CodeIgniter4).
 
-#### TENTANG DATABASE
-> KALAU GAK MAU PAKE TEKNIK MIGRATIONS, ADA ITU SQL DATABASE NYA NAMANYA "INI DATABASE NNYAAAAA.SQL" TINGGAL IMPORT AJA PAKE PHPMYADMIN ATAU SQLYOG
+More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
+
+The user guide corresponding to this version of the framework can be found
+[here](https://codeigniter4.github.io/userguide/). 
+
+
+## Important Change with index.php
+
+`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
+for better security and separation of components.
+
+This means that you should configure your web server to "point" to your project's *public* folder, and
+not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
+framework are exposed.
+
+**Please** read the user guide for a better explanation of how CI4 works!
+The user guide updating and deployment is a bit awkward at the moment, but we are working on it!
+
+## Repository Management
+
+We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
+We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
+FEATURE REQUESTS.
+
+This repository is a "distribution" one, built by our release preparation script. 
+Problems with it can be raised on our forum, or as issues in the main repository.
+
+## Contributing
+
+We welcome contributions from the community.
+
+Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing.md) section in the development repository.
+
+## Server Requirements
+
+PHP version 7.2 or higher is required, with the following extensions installed: 
+
+- [intl](http://php.net/manual/en/intl.requirements.php)
+- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+Additionally, make sure that the following extensions are enabled in your PHP:
+
+- json (enabled by default - don't turn it off)
+- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
+- xml (enabled by default - don't turn it off)
