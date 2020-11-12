@@ -29,7 +29,8 @@ class BaseController extends Controller
 	 */
 	protected $helpers = [
 		'uri',
-		'form'
+		'form',
+		'komponen'
 	];
 
 	/**

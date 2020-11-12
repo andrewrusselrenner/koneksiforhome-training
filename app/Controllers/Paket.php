@@ -8,37 +8,8 @@ use App\Models\PaketModel;
 
 class Paket extends BaseController
 {
-    function index()
+    private function paketFields()
     {
-        // deklarasi model
-        $model = new PaketModel();
-
-        // fetching data dan masukkan dalam array
-        $data  = [
-            'data' => $model->findAll()
-        ];
-
-        // ini kepala (header)
-        echo view('komponen/kepala');
-
-        // passing data array tadi ke view paket
-        echo view('paket', $data);
-
-        // ini kaki (kaki)
-        echo view('komponen/kaki');
-    }
-
-    function tambah()
-    {
-        if (!$this->request->getPost()) {
-            echo view('komponen/kepala');
-            echo view('paket_form');
-            echo view('komponen/kaki');
-            return;
-        }
-
-        $model = new PaketModel();
-
         $data = [
             'paketId' => $this->request->getPost('paketid'),
             'nama_paket' => $this->request->getPost('namapaket'),
@@ -49,8 +20,32 @@ class Paket extends BaseController
             'pajak' => $this->request->getPost('pajak')
         ];
 
+        return $data;
+    }
+
+    function index()
+    {
+        // deklarasi model
+        $model = new PaketModel();
+
+        // fetching data dan masukkan dalam array
+        $data  = [
+            'data' => $model->findAll()
+        ];
+
+        return komponen_view('paket', $data);
+    }
+
+    function tambah()
+    {
+        if (!$this->request->getPost()) {
+            return komponen_view('paket_form');
+        }
+
+        $model = new PaketModel();
+
         try {
-            $model->insert($data);
+            $model->insert($this->paketFields());
             return redirect()->to('/paket');
         } catch (\Throwable $th) {
             throw $th;
@@ -73,24 +68,11 @@ class Paket extends BaseController
         ];
 
         if (!$this->request->getPost()) {
-            echo view('komponen/kepala');
-            echo view('paket_form', $data);
-            echo view('komponen/kaki');
-            return;
+            return komponen_view('paket_form', $data);
         }
 
-        $edit = [
-            'paketId' => $this->request->getPost('paketid'),
-            'nama_paket' => $this->request->getPost('namapaket'),
-            'internet' => $this->request->getPost('internet'),
-            'useetv' => $this->request->getPost('useetv'),
-            'kategori' => $this->request->getPost('kategori'),
-            'price' => $this->request->getPost('price'),
-            'pajak' => $this->request->getPost('pajak')
-        ];
-
         try {
-            $model->update($id, array_filter($edit));
+            $model->update($id, array_filter($this->paketFields()));
             return redirect()->to('/paket');
         } catch (\Throwable $th) {
             throw $th;

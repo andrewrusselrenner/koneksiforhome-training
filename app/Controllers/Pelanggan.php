@@ -6,6 +6,19 @@ use App\Models\PelangganModel;
 
 class Pelanggan extends BaseController
 {
+    private function pelangganFields()
+    {
+        $data = [
+            'pelangganId' => $this->request->getPost('pelangganid'),
+            'nama' => $this->request->getPost('nama'),
+            'jenis_kelamin' => $this->request->getPost('jeniskelamin'),
+            'alamat' => $this->request->getPost('alamat'),
+            'telpon' => $this->request->getPost('telpon')
+        ];
+
+        return $data;
+    }
+
     function index()
     {
         // deklarasi model
@@ -16,14 +29,7 @@ class Pelanggan extends BaseController
             'data' => $model->findAll()
         ];
 
-        // ini kepala (header)
-        echo view('komponen/kepala');
-
-        // passing data array tadi ke view pelanggan
-        echo view('pelanggan', $data);
-
-        // ini kaki (kaki)
-        echo view('komponen/kaki');
+        return komponen_view('pelanggan', $data);
     }
 
     function tambah()
@@ -31,22 +37,11 @@ class Pelanggan extends BaseController
         $model = new PelangganModel();
 
         if (!$this->request->getPost()) {
-            echo view('komponen/kepala');
-            echo view('pelanggan_form');
-            echo view('komponen/kaki');
-            return;
+            return komponen_view('pelanggan_form');
         }
 
-        $data = [
-            'pelangganId' => $this->request->getPost('pelangganid'),
-            'nama' => $this->request->getPost('nama'),
-            'jenis_kelamin' => $this->request->getPost('jeniskelamin'),
-            'alamat' => $this->request->getPost('alamat'),
-            'telpon' => $this->request->getPost('telpon')
-        ];
-
         try {
-            $model->insert(array_filter($data));
+            $model->insert(array_filter($this->pelangganFields()));
             return redirect()->to('/pelanggan');
         } catch (\Throwable $th) {
             var_dump($th->getMessage());
@@ -75,16 +70,8 @@ class Pelanggan extends BaseController
             return;
         }
 
-        $edit = [
-            'pelangganId' => $this->request->getPost('pelangganid'),
-            'nama' => $this->request->getPost('nama'),
-            'jenis_kelamin' => $this->request->getPost('jeniskelamin'),
-            'alamat' => $this->request->getPost('alamat'),
-            'telpon' => $this->request->getPost('telpon')
-        ];
-
         try {
-            $model->update($id, array_filter($edit));
+            $model->update($id, array_filter($this->pelangganFields()));
             return redirect()->to('/pelanggan');
         } catch (\Throwable $th) {
             var_dump($th->getMessage());

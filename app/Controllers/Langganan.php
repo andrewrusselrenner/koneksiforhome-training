@@ -10,6 +10,18 @@ use App\Models\PelangganModel;
 
 class Langganan extends BaseController
 {
+    private function langgananFields()
+    {
+        $data = [
+            'langgananId' => $this->request->getPost('langgananid'),
+            'pelangganId' => $this->request->getPost('pelangganid'),
+            'paketId' => $this->request->getPost('paketid'),
+            'tanggal' => $this->request->getPost('tanggal')
+        ];
+
+        return $data;
+    }
+
     function index()
     {
         // deklarasi model
@@ -20,14 +32,7 @@ class Langganan extends BaseController
             'data' => $model->join('pelanggan', 'pelanggan.pelangganId = langganan.pelangganId')->join('paket', 'paket.paketId = langganan.paketId')->findAll()
         ];
 
-        // ini kepala (header)
-        echo view('komponen/kepala');
-
-        // passing data array tadi ke view langganan
-        echo view('langganan', $data);
-
-        // ini kaki (kaki)
-        echo view('komponen/kaki');
+        return komponen_view('langganan', $data);
     }
 
     function tambah()
@@ -42,21 +47,11 @@ class Langganan extends BaseController
         ];
 
         if (!$this->request->getPost()) {
-            echo view('komponen/kepala');
-            echo view('langganan_form', $dataview);
-            echo view('komponen/kaki');
-            return;
+            return komponen_view('langganan_form', $dataview);
         }
 
-        $data = [
-            'langgananId' => $this->request->getPost('langgananid'),
-            'pelangganId' => $this->request->getPost('pelangganid'),
-            'paketId' => $this->request->getPost('paketid'),
-            'tanggal' => $this->request->getPost('tanggal')
-        ];
-
         try {
-            $model->insert($data);
+            $model->insert($this->langgananFields());
             return redirect()->to('/langganan');
         } catch (\Throwable $th) {
             throw $th;
@@ -81,21 +76,11 @@ class Langganan extends BaseController
         ];
 
         if (!$this->request->getPost()) {
-            echo view('komponen/kepala');
-            echo view('langganan_form', $data);
-            echo view('komponen/kaki');
-            return;
+            return komponen_view('langganan_form', $data);
         }
 
-        $edit = [
-            'langgananId' => $this->request->getPost('langgananid'),
-            'pelangganId' => $this->request->getPost('pelangganid'),
-            'paketId' => $this->request->getPost('paketid'),
-            'tanggal' => $this->request->getPost('tanggal')
-        ];
-
         try {
-            $model->update($id, $edit);
+            $model->update($id, $this->langgananFields());
             return redirect()->to('/langganan');
         } catch (\Throwable $th) {
             throw $th;
